@@ -12,55 +12,54 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/customers")
 public class CustomerController {
+
     @Autowired
-    private CustomerRepository customerRepository;
+    private CustomerService customerService;
 
     @GetMapping()
     public List<Customer> getCustomers() {
-        return (List<Customer>) customerRepository.findAll();
+        return customerService.getCustomers();
     }
 
     @GetMapping(params = "name")
     public List<Customer> getCustomers(@RequestParam(value = "name") String name) {
-        return customerRepository.findByFirstName(name);
+        return customerService.searchCustomerByName(name);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable Long id) {
-        Optional<Customer> customer = customerRepository.findById(id);
-        if(!customer.isPresent()) {
+        Customer customer = customerService.getCustomerById(id);
+        if(customer == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(customer.get(), HttpStatus.OK);
+        return new ResponseEntity<>(customer, HttpStatus.OK);
     }
 
     @PostMapping()
     public ResponseEntity<Customer> postCustomer(@RequestBody Customer customer) {
-        if(customerRepository.existsById(customer.getId())) {
+        Customer c = customerService.addCustomer(customer);
+        if(c == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-        Customer createdCustomer = customerRepository.save(customer);
-        return new ResponseEntity<>(createdCustomer, HttpStatus.CREATED);
+        return new ResponseEntity<>(c, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Customer> updateCustomerById(@PathVariable Long id,
                                                        @RequestBody Customer customer) {
-        if(!customerRepository.existsById(id)) {
+        Customer c = customerService.updateCustomer(id, customer);
+        if(c == null) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-
-        Customer updatedCustomer = customerRepository.save(customer);
-        return new ResponseEntity<>(updatedCustomer, HttpStatus.OK);
+        return new ResponseEntity<>(c, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCustomerById(@PathVariable Long id) {
-        if(!customerRepository.existsById(id)) {
+        boolean result = customerService.deleteCustomer(id);
+        if(!result) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        customerRepository.deleteById(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
