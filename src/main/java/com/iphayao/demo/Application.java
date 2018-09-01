@@ -19,18 +19,10 @@ public class Application {
 	@Bean
 	public CommandLineRunner demo(CustomerRepository repository) {
 		return (args) -> {
-			repository.save(new Customer("John", "Doe"));
-			repository.save(new Customer("Jack", "Doe"));
-			repository.save(new Customer("Jane", "Doe"));
-			repository.save(new Customer("Baby", "Doe"));
-
-
-//			log.info("Customers found with findAll():");
-//			log.info("-------------------------------");
-//			for(Customer customer : repository.findAll()) {
-//				log.info(customer.toString());
-//			}
-//			log.info("");
+			repository.save(new Customer("John", "Doe", 25));
+			repository.save(new Customer("Jack", "Doe", 30));
+			repository.save(new Customer("Jane", "Doe", 28));
+			repository.save(new Customer("Baby", "Doe", 18));
 		};
 	}
 }
