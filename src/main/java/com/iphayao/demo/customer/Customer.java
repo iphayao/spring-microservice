@@ -1,7 +1,6 @@
 package com.iphayao.demo.customer;
 
 import lombok.Data;
-import org.springframework.http.ResponseEntity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
