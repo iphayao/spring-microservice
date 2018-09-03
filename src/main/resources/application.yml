@@ -1,0 +1,22 @@
+server:
+  port: 9000
+
+management:
+  server:
+    port: 9001
+    address: 172.0.0.1
+
+spring:
+  jpa:
+    hibernate:
+      dll-auto: create
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/db_example
+    username: springuser
+    password: ThePassword
+
+  security:
+    user:
+      name: john
+      password: P@ssw0rd
