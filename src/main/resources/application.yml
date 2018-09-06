@@ -9,12 +9,12 @@ management:
 spring:
   jpa:
     hibernate:
-      dll-auto: create
+      ddl-auto: create
 
   datasource:
     url: jdbc:mysql://localhost:3306/db_example
-    username: springuser
-    password: ThePassword
+    username: webservice
+    password: P@ssw0rd
 
   security:
     user:
